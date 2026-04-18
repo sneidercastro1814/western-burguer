@@ -227,6 +227,9 @@ nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.6); }
   transition: all 0.3s;
   position:relative;
   overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
 .menu-card::before {
   content:''; position:absolute; top:0; left:0; right:0;
@@ -256,6 +259,152 @@ nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.6); }
   letter-spacing:1px;
 }
 
+/* FOOD MENU */
+.food-menu-section {
+  background:
+    radial-gradient(ellipse at 30% 0%, rgba(212,118,10,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 70% 100%, rgba(139,26,26,0.08) 0%, transparent 50%),
+    #0D0705;
+}
+.food-grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap:28px;
+}
+.food-card {
+  background: linear-gradient(145deg, #2A1A10 0%, #1E120A 100%);
+  border:2px solid var(--wood-mid);
+  border-radius:14px;
+  overflow:hidden;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position:relative;
+}
+.food-card::before {
+  content:''; position:absolute; top:0; left:0; right:0;
+  height:3px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity:0; transition:opacity 0.3s; z-index:2;
+}
+.food-card:hover {
+  transform:translateY(-8px);
+  border-color:var(--gold);
+  box-shadow: 0 16px 50px rgba(0,0,0,0.5), 0 0 25px rgba(201,162,39,0.12);
+}
+.food-card:hover::before { opacity:1; }
+.food-card-img {
+  width:100%; height:220px;
+  overflow:hidden; position:relative;
+  background: linear-gradient(135deg, var(--wood-mid) 0%, var(--wood) 100%);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+}
+
+/* LIGHTBOX */
+.lightbox-overlay {
+  position:fixed; inset:0; z-index:10000;
+  background:rgba(0,0,0,0.92);
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; visibility:hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+  padding:20px;
+  backdrop-filter: blur(8px);
+}
+.lightbox-overlay.active { opacity:1; visibility:visible; }
+.lightbox-content {
+  position:relative; max-width:90vw; max-height:85vh;
+  animation: lightboxZoom 0.3s ease;
+}
+@keyframes lightboxZoom {
+  from { transform:scale(0.85); opacity:0; }
+  to { transform:scale(1); opacity:1; }
+}
+.lightbox-content img {
+  max-width:90vw; max-height:85vh;
+  border-radius:12px;
+  border:3px solid var(--gold);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(201,162,39,0.15);
+  object-fit:contain;
+  display:block;
+}
+.lightbox-caption {
+  text-align:center; margin-top:14px;
+  font-family:'Rye',cursive; font-size:18px;
+  color:var(--gold);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+.lightbox-close {
+  position:absolute; top:-18px; right:-18px;
+  width:44px; height:44px; border-radius:50%;
+  background:var(--gold); color:var(--wood-dark);
+  border:none; font-size:24px; font-weight:bold;
+  cursor:pointer; display:flex; align-items:center;
+  justify-content:center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  transition: transform 0.2s, background 0.2s;
+  z-index:10001;
+  line-height:1;
+}
+.lightbox-close:hover { transform:scale(1.15); background:var(--gold-light); }
+.lightbox-nav {
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:48px; height:48px; border-radius:50%;
+  background:rgba(201,162,39,0.2); border:2px solid var(--gold);
+  color:var(--gold); font-size:22px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition: background 0.2s, transform 0.2s;
+  backdrop-filter: blur(4px);
+}
+.lightbox-nav:hover { background:var(--gold); color:var(--wood-dark); transform:translateY(-50%) scale(1.1); }
+.lightbox-prev { left:-70px; }
+.lightbox-next { right:-70px; }
+@media (max-width:768px) {
+  .lightbox-prev { left:10px; }
+  .lightbox-next { right:10px; }
+  .lightbox-close { top:-14px; right:-8px; width:38px; height:38px; font-size:20px; }
+  .lightbox-content { max-width:95vw; }
+  .lightbox-content img { max-width:95vw; }
+}
+.food-card-img img {
+  width:100%; height:100%; object-fit:cover;
+  transition: transform 0.5s;
+}
+.food-card:hover .food-card-img img { transform:scale(1.08); }
+.food-card-img .placeholder-icon {
+  font-size:64px; opacity:0.3;
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+}
+.food-card-body {
+  padding:20px 22px 24px;
+  text-align:center;
+}
+.food-card-body h3 {
+  font-family:'Rye',cursive; font-size:17px;
+  color:var(--gold); margin-bottom:8px;
+  line-height:1.3;
+}
+.food-card-body p {
+  color:var(--cream-dark); font-size:14px;
+  line-height:1.7; opacity:0.85;
+  margin-bottom:14px;
+}
+.food-card-price {
+  display:inline-block;
+  background: linear-gradient(135deg, var(--fire) 0%, var(--red-deep) 100%);
+  color:#fff; padding:6px 20px; border-radius:25px;
+  font-family:'Rye',cursive; font-size:15px;
+  letter-spacing:1px;
+  box-shadow: 0 3px 10px rgba(212,118,10,0.25);
+}
+.food-card-badge {
+  position:absolute; top:14px; right:14px; z-index:2;
+  background:var(--gold); color:var(--wood-dark);
+  padding:4px 12px; border-radius:20px;
+  font-family:'Rye',cursive; font-size:11px;
+  letter-spacing:1px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+
 /* ABOUT */
 .about-section {
   background:
@@ -281,6 +430,7 @@ nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.6); }
 .value-card {
   background: var(--wood); border:1px solid var(--wood-mid);
   border-radius:10px; padding:18px; text-align:center;
+  display:flex; flex-direction:column; align-items:center;
 }
 .value-card span { font-size:32px; display:block; margin-bottom:8px; }
 .value-card h4 {
@@ -350,6 +500,21 @@ nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.6); }
   display:flex; align-items:center; justify-content:center;
   font-size:80px;
   background: linear-gradient(145deg, #2A1A10, #1E120A);
+}
+.gallery-item img {
+  width:100%; height:100%; object-fit:cover;
+}
+.menu-card .gallery-item,
+.value-card .gallery-item {
+  margin: 0 auto 12px;
+  border-radius:10px;
+  aspect-ratio: auto;
+  max-width: 100%;
+}
+.menu-card .gallery-item img,
+.value-card .gallery-item img {
+  border-radius:10px;
+  object-fit:cover;
 }
 .gallery-item:hover {
   border-color:var(--gold);
@@ -482,6 +647,7 @@ footer p { color:var(--cream-dark); font-size:13px; opacity:0.6; margin-bottom:4
   .wanted-poster { transform:rotate(0); }
   .hero-logo { width:160px; height:160px; }
   .menu-grid { grid-template-columns:1fr; }
+  .food-grid { grid-template-columns:1fr; }
 }
 </style>
 </head>
@@ -496,7 +662,7 @@ footer p { color:var(--cream-dark); font-size:13px; opacity:0.6; margin-bottom:4
     </a>
     <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
     <ul class="nav-links">
-      <li><a href="#menu" onclick="closeMenu()">Menú</a></li>
+      <li><a href="#carta" onclick="closeMenu()">Carta</a></li>
       <li><a href="#nosotros" onclick="closeMenu()">Nosotros</a></li>
       <li><a href="#galeria" onclick="closeMenu()">Galería</a></li>
       <li><a href="#ubicacion" onclick="closeMenu()">Ubicación</a></li>
@@ -524,83 +690,172 @@ footer p { color:var(--cream-dark); font-size:13px; opacity:0.6; margin-bottom:4
 
 <!-- MENU -->
 <section class="section menu-section" id="menu">
-  <h2 class="section-title fade-up">Nuestro Menú</h2>
+  <h2 class="section-title fade-up">Nuestra Tematica</h2>
   <div class="section-line"></div>
-  <p class="section-subtitle fade-up">Sabores del salvaje oeste directo a tu mesa</p>
+  <p class="section-subtitle fade-up">Vive el Viejo Oeste en nuestro local, con atracciones que te harán sentir como un verdadero vaquero.</p>
   <div class="section-inner">
     <div class="menu-categories fade-up">
-      <button class="menu-cat-btn active" onclick="filterMenu('all',this)">🤠 Todos</button>
-      <button class="menu-cat-btn" onclick="filterMenu('burger',this)">🍔 Hamburguesas</button>
-      <button class="menu-cat-btn" onclick="filterMenu('hotdog',this)">🌭 Hot Dogs</button>
-      <button class="menu-cat-btn" onclick="filterMenu('side',this)">🍟 Acompañamientos</button>
-      <button class="menu-cat-btn" onclick="filterMenu('special',this)">⭐ Especiales</button>
+      <button class="menu-cat-btn active" onclick="filterMenu('all',this)">🤠Tematico</button>
+    
     </div>
     <div class="menu-grid" id="menuGrid">
       <div class="menu-card fade-up" data-cat="burger">
-        <span class="menu-card-emoji">🍔</span>
-        <h3>Burguer Clásica</h3>
-        <p>Pan artesanal, carne 100% res, lechuga, tomate, queso cheddar y nuestra salsa secreta del oeste</p>
-        <span class="tag">★ Favorita</span>
+             <div class="gallery-item fade-up"><img src="muñeca.jpeg" alt="La Vaquera"><div class="gallery-overlay"><span>Jesse</span></div></div>
+
+        <p>Una vaquera con espíritu salvaje, lista para conquistar el Viejo Oeste</p>
+        <span class="tag">⭐Favorita</span>
       </div>
       <div class="menu-card fade-up" data-cat="burger">
-        <span class="menu-card-emoji">🔥</span>
-        <h3>Burguer BBQ Cowboy</h3>
-        <p>Doble carne, tocineta ahumada, aros de cebolla, queso pepper jack y salsa BBQ texana</p>
-        <span class="tag">🔥 Picante</span>
+        
+              <div class="gallery-item fade-up"><img src="toro.jpeg" alt="El Toro"><div class="gallery-overlay"><span>El Toro</span></div></div>
+        <p>¿Tienes lo que se necesita? Súbete al toro y demuéstralo 🤠🔥</p>
+        <span class="tag">🔥 Atrevete</span>
       </div>
       <div class="menu-card fade-up" data-cat="burger">
-        <span class="menu-card-emoji">🧀</span>
+                   <div class="gallery-item fade-up"><img src="señora.jpeg" alt="El Toro"><div class="gallery-overlay"><span>El Toro</span></div></div>
         <h3>Burguer Ranch</h3>
         <p>Carne jugosa, triple queso fundido, champiñones salteados, cebolla caramelizada y salsa ranch</p>
       </div>
+
       <div class="menu-card fade-up" data-cat="burger">
-        <span class="menu-card-emoji">🐔</span>
-        <h3>Burguer Pollo Sheriff</h3>
-        <p>Pechuga crispy, lechuga, tomate, queso americano y salsa de la casa</p>
+              <div class="gallery-item fade-up"><img src="cuernos.jpeg" alt="Decoración Wild"><div class="gallery-overlay"><span>Foto Recuerdo</span></div></div>
+        <p>Tu aventura merece una foto épica 📸🔥</p>
+         <span class="tag">📸Foto</span>
       </div>
       <div class="menu-card fade-up" data-cat="hotdog">
-        <span class="menu-card-emoji">🌭</span>
-        <h3>Perro Vaquero</h3>
-        <p>Salchicha premium, queso fundido, tocineta, salsas y chips de cebolla crispy</p>
-        <span class="tag">★ Favorita</span>
+            <div class="gallery-item fade-up"><img src="muñecaytoro.jpeg" alt="La Vaquera y el Toro"><div class="gallery-overlay"><span>La Vaquera y el Toro</span></div></div>
+        <p>Donde la aventura del Oeste cobra vida… y tú eres el protagonista 🤠🔥</p>
+        <span class="tag">🐂🤠Conocenos</span>
       </div>
       <div class="menu-card fade-up" data-cat="hotdog">
-        <span class="menu-card-emoji">🌶️</span>
-        <h3>Perro Tex-Mex</h3>
-        <p>Salchicha, chili con carne, jalapeños, queso cheddar y guacamole</p>
-        <span class="tag">🔥 Picante</span>
+            <div class="gallery-item fade-up"><img src="carro.jpeg" alt="La Vaquera y el Toro"><div class="gallery-overlay"><span>Celebramos tus fechas especiales</span></div></div>
+
+        <p>Celebra tus fiestas al estilo del Viejo Oeste 🤠🎉</p>
+        <span class="tag">🎉Cumpleaños</span>
       </div>
-      <div class="menu-card fade-up" data-cat="hotdog">
-        <span class="menu-card-emoji">🥓</span>
-        <h3>Perro Ranchero</h3>
-        <p>Salchicha ahumada, tocineta, maíz dulce, salsas especiales y papas paja</p>
+      
+    </div>
+  </div>
+</section>
+
+<div class="rope-divider"></div>
+
+<!-- FOOD MENU -->
+<section class="section food-menu-section" id="carta">
+  <h2 class="section-title fade-up">🍔 Nuestro Menú</h2>
+  <div class="section-line"></div>
+  <p class="section-subtitle fade-up">Sabores del Viejo Oeste que te harán volver por más</p>
+  <div class="section-inner">
+    <div class="food-grid">
+
+      <!-- TARJETA 1 -->
+      <div class="food-card fade-up">
+        <div class="food-card-img">
+          <!-- Reemplaza src="TU-FOTO-1.jpg" con la ruta de tu imagen -->
+          <img src="combo1.jpeg" alt="Plato 1">
+        </div>
+        <span class="food-card-badge">⭐ Popular</span>
+        <div class="food-card-body">
+          <h3>Patacon Gratinado</h3>
+          <p>Carne de res y pollo desmechado, tocineta, champiñones, queso gratinado, salsa de la casa acompañado de patacón Western.</p>
+        </div>
       </div>
-      <div class="menu-card fade-up" data-cat="special">
-        <span class="menu-card-emoji">🍌</span>
-        <h3>Patacón a la Italiana</h3>
-        <p>Patacón crujiente con carne, queso mozzarella, salsa pomodoro, albahaca y gratinado al horno</p>
-        <span class="tag">⭐ Especial</span>
+
+      <!-- TARJETA 2 -->
+      <div class="food-card fade-up">
+        <div class="food-card-img">
+          <img src="combo3.jpeg" alt="Plato 2">
+        </div>
+        <div class="food-card-body">
+          <h3>Carne Trifasica Western</h3>
+          <p>3 porciones de carne 120gr c/u opcional res, cerdo o pollo, papas a la francesa, arepa con queso fundido acompañado de patacon western.</p>
+      
+        </div>
       </div>
-      <div class="menu-card fade-up" data-cat="special">
-        <span class="menu-card-emoji">🥩</span>
-        <h3>Patacón Western</h3>
-        <p>Patacón con carne desmechada BBQ, queso fundido, tocineta y cebolla caramelizada</p>
+
+      <!-- TARJETA 3 -->
+      <div class="food-card fade-up">
+        <div class="food-card-img">
+          <img src="combo5.jpeg" alt="Plato 3">
+        </div>
+        <div class="food-card-body">
+          <h3>Combo western</h3>
+          <p>Hamburguesa Western + papas a la francesa + gaseosa 250ml + patacon Western.</p>
+        </div>
       </div>
-      <div class="menu-card fade-up" data-cat="side">
-        <span class="menu-card-emoji">🍟</span>
-        <h3>Papas del Rancho</h3>
-        <p>Papas fritas crujientes con sal de ajo y romero, acompañadas de nuestras 3 salsas</p>
+
+      <!-- TARJETA 4 -->
+      <div class="food-card fade-up">
+        <div class="food-card-img">
+          <img src="combo7.jpeg" alt="Plato 4">
+        </div>
+        <span class="food-card-badge">🔥 Nuevo</span>
+        <div class="food-card-body">
+          <h3>Hamburguesa Triple Carne</h3>
+          <p>Pan artesanal BIMBO, 450gr de carne, tomate, lechuga, piña melada, queso gratinado, cebolla sofreida.</p>
+          <span class="food-card-price">$XX.XXX</span>
+        </div>
       </div>
-      <div class="menu-card fade-up" data-cat="side">
-        <span class="menu-card-emoji">🧅</span>
-        <h3>Aros de Cebolla</h3>
-        <p>Aros de cebolla apanados y fritos hasta quedar dorados y crocantes</p>
+
+      <!-- TARJETA 5 -->
+      <div class="food-card fade-up">
+        <div class="food-card-img">
+          <img src="combo8.jpeg" alt="Plato 5">
+        </div>
+        <div class="food-card-body">
+          <h3>Perro Especial</h3>
+          <p>Pan perro BIMBO, super perro ZENU, tocineta, piña melada, queso gratinado, cebolla sofreida, patacon Western.</p>
+        </div>
       </div>
-      <div class="menu-card fade-up" data-cat="side">
-        <span class="menu-card-emoji">🥤</span>
-        <h3>Bebidas</h3>
-        <p>Limonada de la casa, gaseosas, malteadas de vainilla, chocolate y fresa</p>
+
+      <!-- TARJETA 6 -->
+      <div class="food-card fade-up">
+        <div class="food-card-img">
+          <img src="combo10.jpeg" alt="Plato 6">
+        </div>
+        <div class="food-card-body">
+          <h3>Salchipapas</h3>
+          <p>300gr de papa, super perro ZENU acompañado de patacon Western.</p>
+        </div>
       </div>
+
+      <!-- TARJETA 7 -->
+      <div class="food-card fade-up">
+        <div class="food-card-img">
+          <img src="combo12.jpeg" alt="Plato 7">
+        </div>
+        <span class="food-card-badge">🤠 Especial</span>
+        <div class="food-card-body">
+          <h3>Hamburguesa Especial</h3>
+          <p>Pan artesanal BIMBO, 150gr carne, tomate, lechuga, piña melada, tocineta, queso gratinado, cebolla sofreida.</p>
+        
+        </div>
+      </div>
+
+      <!-- TARJETA 8 -->
+      <div class="food-card fade-up">
+        <div class="food-card-img">
+          <img src="combo6.jpeg" alt="Plato 8">
+        </div>
+        <div class="food-card-body">
+          <h3>Bebidas</h3>
+          <p>Bebidas bien frías, con el sabor fuerte del viejo oeste… perfectas para recargar energías después de una gran aventura.</p>
+        </div>
+      </div>
+
+      <!-- TARJETA 9 -->
+      <div class="food-card fade-up">
+        <div class="food-card-img">
+          <img src="combo11.jpeg" alt="Plato 9">
+        </div>
+        <div class="food-card-body">
+          <h3>Hamburguesa Western</h3>
+          <p>Pan artesanal BIMBO, 150gr de carne, tomate, lechuga, piña melada, queso gratinado, cebolla sofreida.</p>
+        </div>
+      </div>
+
+      <!-- TARJETA 10 -->
+     
     </div>
   </div>
 </section>
@@ -620,30 +875,30 @@ footer p { color:var(--cream-dark); font-size:13px; opacity:0.6; margin-bottom:4
         <p>Cada hamburguesa es una aventura, cada perro es una hazaña, y cada patacón es una leyenda. Aquí no solo comes, ¡vives la experiencia del oeste!</p>
         <div class="about-values">
           <div class="value-card">
-            <span>🥩</span>
-            <h4>Carne Fresca</h4>
-            <p>100% res premium</p>
+         <div class="gallery-item fade-up"><img src="combo12.jpeg" alt="Fachada Western Burguer"><div class="gallery-overlay"><span>Western Burguer</span></div></div>
+            <h4>Más salvaje que el oeste⭐</h4>
+            <p>Una mordida… y entras en leyenda</p>
           </div>
           <div class="value-card">
-            <span>🔥</span>
-            <h4>A la Parrilla</h4>
-            <p>Sabor ahumado real</p>
+                 <div class="gallery-item fade-up"><img src="combo1.jpeg" alt="La Vaquera"><div class="gallery-overlay"><span>La Vaquera</span></div></div>
+            <h4>Patacon Gratinado😋</h4>
+            <p>Atrevete a probarlo🔥</p>
           </div>
           <div class="value-card">
-            <span>🚀</span>
-            <h4>Domicilios</h4>
-            <p>Rápido a tu puerta</p>
+                 <div class="gallery-item fade-up"><img src="combo7.jpeg" alt="Decoración Wild"><div class="gallery-overlay"><span>Wild West</span></div></div> 
+            <h4>Hamburguesa triple carne🍔</h4>
+            <p>Donde el hambre pierde el duelo</p>
           </div>
           <div class="value-card">
-            <span>❤️</span>
-            <h4>Con Amor</h4>
-            <p>Hecho con pasión</p>
+                <div class="gallery-item fade-up"><img src="combo5.jpeg" alt="El Toro"><div class="gallery-overlay"><span>El Toro</span></div></div>
+            <h4>Caer del toro es fácil… levantarte por otra ronda también🐂</h4>
+            <p>Aquí se viene a comer… y a sobrevivir al toro</p>
           </div>
         </div>
       </div>
       <div class="about-image-area fade-up">
         <div class="wanted-poster">
-          <img src="data:image/jpeg;base64,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" alt="Western Burguer">
+          <img src="combo12.jpeg" alt="Western Burguer">
           <h3>Western Burguer</h3>
           <p>Por delitos de sabor extremo contra el paladar</p>
           <div class="wanted-reward">RECOMPENSA: ¡UNA BURGUER GRATIS!</div>
@@ -662,12 +917,11 @@ footer p { color:var(--cream-dark); font-size:13px; opacity:0.6; margin-bottom:4
   <p class="section-subtitle fade-up">Las fotos que te abrirán el apetito</p>
   <div class="section-inner">
     <div class="gallery-grid">
-      <div class="gallery-item fade-up">🍔<div class="gallery-overlay"><span>Burguer Clásica</span></div></div>
-      <div class="gallery-item fade-up">🌭<div class="gallery-overlay"><span>Perro Vaquero</span></div></div>
-      <div class="gallery-item fade-up">🍟<div class="gallery-overlay"><span>Papas del Rancho</span></div></div>
-      <div class="gallery-item fade-up">🥩<div class="gallery-overlay"><span>Parrilla Western</span></div></div>
-      <div class="gallery-item fade-up">🍌<div class="gallery-overlay"><span>Patacón Italiano</span></div></div>
-      <div class="gallery-item fade-up">🧀<div class="gallery-overlay"><span>Burguer Ranch</span></div></div>
+      <div class="gallery-item fade-up"><img src="niño.jpeg" alt="Fachada Western Burguer"><div class="gallery-overlay"><span>Western Burguer</span></div></div>
+      <div class="gallery-item fade-up"><img src="muñeca.jpeg" alt="La Vaquera"><div class="gallery-overlay"><span>La Vaquera</span></div></div>
+      <div class="gallery-item fade-up"><img src="cuernos.jpeg" alt="Decoración Wild"><div class="gallery-overlay"><span>Wild West</span></div></div>
+      <div class="gallery-item fade-up"><img src="toro.jpeg" alt="El Toro"><div class="gallery-overlay"><span>El Toro</span></div></div>
+      <div class="gallery-item fade-up"><img src="muñecaytoro.jpeg" alt="La Vaquera y el Toro"><div class="gallery-overlay"><span>La Vaquera y el Toro</span></div></div>
     </div>
     <p style="text-align:center;margin-top:30px;color:var(--cream-dark);font-style:italic;opacity:0.6;font-size:14px;">📸 ¡Síguenos en redes para ver más fotos de nuestros platos!</p>
   </div>
@@ -731,6 +985,17 @@ footer p { color:var(--cream-dark); font-size:13px; opacity:0.6; margin-bottom:4
   <p style="margin-top:16px;font-size:11px;opacity:0.4;">© 2026 Western Burguer · Todos los derechos reservados</p>
 </footer>
 
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox">
+  <div class="lightbox-content">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <button class="lightbox-nav lightbox-prev" onclick="navigateLightbox(-1)">&#8249;</button>
+    <button class="lightbox-nav lightbox-next" onclick="navigateLightbox(1)">&#8250;</button>
+    <img id="lightbox-img" src="" alt="">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+  </div>
+</div>
+
 <!-- WHATSAPP FLOATING -->
 <a href="https://wa.me/573168426630?text=Hola!%20Quiero%20hacer%20un%20pedido%20🤠🍔" class="whatsapp-btn" target="_blank" title="Pedir por WhatsApp">
   💬
@@ -784,6 +1049,56 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   });
+});
+
+// LIGHTBOX - solo para imágenes de "Nuestro Menú"
+let foodImages = [];
+let currentImgIndex = 0;
+
+document.querySelectorAll('.food-card-img').forEach((container, index) => {
+  const img = container.querySelector('img');
+  if (img) {
+    const card = container.closest('.food-card');
+    const title = card ? card.querySelector('.food-card-body h3') : null;
+    foodImages.push({ src: img.src, caption: title ? title.textContent : '' });
+    container.addEventListener('click', () => openLightbox(index));
+  }
+});
+
+function openLightbox(index) {
+  currentImgIndex = index;
+  updateLightboxImage();
+  document.getElementById('lightbox').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function navigateLightbox(direction) {
+  currentImgIndex = (currentImgIndex + direction + foodImages.length) % foodImages.length;
+  updateLightboxImage();
+}
+
+function updateLightboxImage() {
+  document.getElementById('lightbox-img').src = foodImages[currentImgIndex].src;
+  document.getElementById('lightbox-img').alt = foodImages[currentImgIndex].caption;
+  document.getElementById('lightbox-caption').textContent = foodImages[currentImgIndex].caption;
+}
+
+// Cerrar con clic en el fondo
+document.getElementById('lightbox').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('lightbox')) closeLightbox();
+});
+
+// Cerrar con Escape y navegar con flechas
+document.addEventListener('keydown', (e) => {
+  if (!document.getElementById('lightbox').classList.contains('active')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') navigateLightbox(-1);
+  if (e.key === 'ArrowRight') navigateLightbox(1);
 });
 </script>
 </body>
